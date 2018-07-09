@@ -80,7 +80,7 @@ public class Parser {
 			return new Command(inputline);
 		} else if (input == 2) {
 			System.out.println("[> Type one of the following: ");
-			System.out.println("[> \"Check Balance\", \"Withdraw\", \"Deposit\", or \"Logout\"");
+			System.out.println("[> \"Check Balance\", \"Withdraw\", \"Deposit\", \"Transfer\" or \"Logout\"");
 			System.out.print("[> ");
 			String inputline = inputAttempt();
 			if (isCommand2(inputline)){

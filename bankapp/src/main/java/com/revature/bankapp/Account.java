@@ -2,18 +2,16 @@ package com.revature.bankapp;
 import java.io.*;
 
 public class Account implements Serializable {
-	private static final long serialversionUID = 123456789L;
+	private static final long serialVersionUID = 1234L;
 	private int accountnumber;
 	private String accountholder;
 	private String password;
 	private long currency;
-	private boolean isAvailable;
 	
 	public Account(int accountnumber) {
 		this.accountnumber = accountnumber;
 		accountholder = "";
 		currency = 0L;
-		isAvailable = true;
 	}
 	
 	public void loadData() {
@@ -40,44 +38,17 @@ public class Account implements Serializable {
 		return accountnumber;
 	}
 	
-	public synchronized long getCurrency() {
-		while(!isAvailable) {
-			try {
-				wait();
-			} catch (InterruptedException ex) {
-				ex.getMessage();
-			}
-		}
-		notifyAll();
+	public long getCurrency() {
 		return currency;
 	}
 	
-	public synchronized void addCurrency(long value) {
-		while(isAvailable) {
-			try {
-				wait();
-			} catch (InterruptedException ex) {
-				ex.getMessage();
-			}
-		}
-		
-		isAvailable = true;
+	public void addCurrency(long value) {
 		currency += value;
-		notifyAll();
+
 	}
 	
-	public synchronized void remCurrency(long value) {
-		while(isAvailable) {
-			try {
-				wait();
-			} catch (InterruptedException ex) {
-				ex.getMessage();
-			}
-		}
-		
-		isAvailable = true;
+	public void remCurrency(long value) {
 		currency -= value;
-		notifyAll();
 	}
 	
 }

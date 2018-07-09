@@ -23,7 +23,8 @@ public class AccountStorage {
 					FileInputStream fis = new FileInputStream(f.getName());
 			        ObjectInputStream in = new ObjectInputStream(fis);
 			        try {
-			        	Object O = in.readObject();
+			        	Object O = in.readObject(); //Code is hitting IO exception on this line
+			        	System.out.println("Object Read");
 			        	Account A = (Account)O;
 			        	accountMap.put(A.getID(), A);
 			        	L.addID(A.getName(), A.getID());
@@ -35,7 +36,7 @@ public class AccountStorage {
 			        fis.close();
 				} catch (IOException ex) {
 		        	ex.getMessage();
-		        	System.out.println("IO EXCEPTION");
+		        	System.out.println("IO EXCEPTION ON FILE LOAD");
 		        }
 			}
 		}

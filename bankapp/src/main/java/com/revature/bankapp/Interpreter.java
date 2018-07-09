@@ -18,7 +18,6 @@ public class Interpreter {
 		AS.load(L);
 		loginattempts = 0;
 		loggedin = false;
-		currentAccount = new Account(000000);
 		
 	}
 	
@@ -55,7 +54,7 @@ public class Interpreter {
 				int AN = L.getID(username);
 				Account A = AS.getAccount(AN);
 				if(command.toString().equals(A.getPass())) {
-					System.out.println("[< Login Success.");
+					System.out.println("[< Login Success for Account " + A.getID());
 					loggedin = true;
 					currentAccount = A;
 				} else {
@@ -89,21 +88,46 @@ public class Interpreter {
 			System.out.println("[< Your Balance is: "+currentAccount.getCurrency());
 		} else if(command.toString().equals("Deposit")){
 			command = P.parse(4);
-			long amount = Long.parseLong(command.toString());
-			currentAccount.addCurrency(amount);
+			long amount = 0L;
+			try {
+				amount = Long.parseLong(command.toString());
+			} catch (NumberFormatException ex){
+				ex.getMessage();
+				System.out.println("[< Invalid Input.");
+			}
+			try {
+				currentAccount.addCurrency(amount);
+			} catch (NullPointerException ex) {
+				ex.getMessage();
+				System.out.println("Account could not be accessed.");
+			}
+			System.out.println("[< Amount Deposited.");
 		} else if(command.toString().equals("Withdraw")){
 			command = P.parse(4);
-			long amount = Long.parseLong(command.toString());
-			currentAccount.remCurrency(amount);
+			long amount = 0L;
+			try {
+				amount = Long.parseLong(command.toString());
+			} catch (NumberFormatException ex){
+				ex.getMessage();
+				System.out.println("[< Invalid Input.");
+			}
+			try {
+				currentAccount.remCurrency(amount);
+			} catch (NullPointerException ex) {
+				ex.getMessage();
+				System.out.println("Account could not be accessed.");
+			}
+			System.out.println("[< Amount Withdrawn.");
 		} else if(command.toString().equals("Transfer")){
 			command = P.parse(4);
 			long amount = Long.parseLong(command.toString());
 			command = P.parse(5);
 			int ID = Integer.parseInt(command.toString());
 			if (AS.haveAccount(ID)) {
-				if (currentAccount.getCurrency() > amount) {
+				if (currentAccount.getCurrency() >= amount) {
 					AS.getAccount(ID).addCurrency(amount);
 					currentAccount.remCurrency(amount);
+					System.out.println("[< Transfer Complete.");
 				} else {
 					System.out.println("[< Not enough funds.");
 				}
