@@ -8,6 +8,7 @@ public class Interpreter {
 	private Login L;
 	private int loginattempts;
 	private boolean loggedin;
+	Account currentAccount;
 
 	public Interpreter(AccountStorage AS) {
 		Active = true;
@@ -17,6 +18,8 @@ public class Interpreter {
 		AS.load(L);
 		loginattempts = 0;
 		loggedin = false;
+		currentAccount = new Account(000000);
+		
 	}
 	
 	public boolean isActive() {
@@ -54,6 +57,7 @@ public class Interpreter {
 				if(command.toString().equals(A.getPass())) {
 					System.out.println("[< Login Success.");
 					loggedin = true;
+					currentAccount = A;
 				} else {
 					System.out.println("[< Incorrect Password.");
 					loginattempts +=1;
@@ -82,13 +86,30 @@ public class Interpreter {
 				System.out.println("[< Your Account Number is: "+AN);
 			}
 		} else if(command.toString().equals("Check Balance")){
-			
+			System.out.println("[< Your Balance is: "+currentAccount.getCurrency());
 		} else if(command.toString().equals("Deposit")){
-			
+			command = P.parse(4);
+			long amount = Long.parseLong(command.toString());
+			currentAccount.addCurrency(amount);
 		} else if(command.toString().equals("Withdraw")){
-			
+			command = P.parse(4);
+			long amount = Long.parseLong(command.toString());
+			currentAccount.remCurrency(amount);
 		} else if(command.toString().equals("Transfer")){
-			
+			command = P.parse(4);
+			long amount = Long.parseLong(command.toString());
+			command = P.parse(5);
+			int ID = Integer.parseInt(command.toString());
+			if (AS.haveAccount(ID)) {
+				if (currentAccount.getCurrency() > amount) {
+					AS.getAccount(ID).addCurrency(amount);
+					currentAccount.remCurrency(amount);
+				} else {
+					System.out.println("[< Not enough funds.");
+				}
+			} else {
+				System.out.println("[< Account does not exist.");
+			}
 		}
 	}
 	

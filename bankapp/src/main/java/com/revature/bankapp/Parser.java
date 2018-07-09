@@ -94,6 +94,16 @@ public class Parser {
 			System.out.print("[> ");
 			String inputline = inputAttempt();
 			return new Command(inputline);
+		} else if (input == 4) {
+			System.out.println("[> Please enter an amount: ");
+			System.out.print("[> ");
+			String inputline = inputAttempt();
+			return new Command(inputline);
+		} else if (input == 5) {
+			System.out.println("[> Enter destination Account Number: ");
+			System.out.print("[> ");
+			String inputline = inputAttempt();
+			return new Command(inputline);
 		} else {
 			return new Command("");
 		}
