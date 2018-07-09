@@ -3,6 +3,7 @@ package com.revature.bankapp;
 public class Account {
 	private int accountnumber;
 	private String accountholder;
+	private String password;
 	private long currency;
 	private boolean isAvailable;
 	
@@ -23,6 +24,14 @@ public class Account {
 	
 	public void setName(String input) {
 		accountholder = input;
+	}
+	
+	public void setPass(String input) {
+		password = input;
+	}
+	
+	public String getPass() {
+		return password;
 	}
 	
 	public int getID() {

@@ -7,10 +7,16 @@ public class AccountStorage {
 	
 	public AccountStorage() {
 		accountMap = new HashMap<Integer,Account>();
-		
-		//TODO Load account data from File I/O
+		load();
 	}
 	
+	public void load() {
+		//TODO Use FileIO to load account information.
+	}
+	
+	public void write() {
+		//TODO Upon closing, write any account information.
+	}
 	public boolean haveAccount(int ID) {
 		return accountMap.containsKey(ID);
 	}
