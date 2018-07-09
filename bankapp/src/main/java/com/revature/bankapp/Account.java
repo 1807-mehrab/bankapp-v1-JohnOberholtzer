@@ -1,6 +1,8 @@
 package com.revature.bankapp;
+import java.io.*;
 
-public class Account {
+public class Account implements Serializable {
+	private static final long serialversionUID = 123456789L;
 	private int accountnumber;
 	private String accountholder;
 	private String password;

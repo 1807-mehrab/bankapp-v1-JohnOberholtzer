@@ -10,10 +10,11 @@ public class Interpreter {
 	private boolean loggedin;
 
 	public Interpreter(AccountStorage AS) {
-		this.AS = AS;
 		Active = true;
 		P = new Parser();
 		L = new Login();
+		this.AS = AS;
+		AS.load(L);
 		loginattempts = 0;
 		loggedin = false;
 	}
@@ -23,6 +24,12 @@ public class Interpreter {
 	}
 	
 	public void interpret() {
+		if (loginattempts > 3) {
+			P.close();
+			AS.write();
+			System.out.println("[< You have been locked out for exceeding the maximum number of password attempts.");
+			Active = false;
+		}
 		Command command =new Command("");
 		if (!loggedin) {
 			command = P.parse(0);
@@ -34,6 +41,9 @@ public class Interpreter {
 			AS.write();
 			System.out.println("[< Thank you for using BankApp.");
 			Active = false;
+		} else if(command.toString().equals("Logout")) {
+			loggedin = false;
+			loginattempts = 0;
 		} else if(command.toString().equals("Login")) {
 			command = P.parse(1);
 			if (L.haveID(command.toString())){
@@ -45,8 +55,11 @@ public class Interpreter {
 					System.out.println("[< Login Success.");
 					loggedin = true;
 				} else {
+					System.out.println("[< Incorrect Password.");
 					loginattempts +=1;
 				}
+			} else {
+				System.out.println("[< No such user exists.");
 			}
 		} else if(command.toString().equals("Create Account")){
 			command = P.parse(1);
@@ -68,6 +81,14 @@ public class Interpreter {
 				System.out.println("[< Account created. You may log in with this account.");
 				System.out.println("[< Your Account Number is: "+AN);
 			}
+		} else if(command.toString().equals("Check Balance")){
+			
+		} else if(command.toString().equals("Deposit")){
+			
+		} else if(command.toString().equals("Withdraw")){
+			
+		} else if(command.toString().equals("Transfer")){
+			
 		}
 	}
 	

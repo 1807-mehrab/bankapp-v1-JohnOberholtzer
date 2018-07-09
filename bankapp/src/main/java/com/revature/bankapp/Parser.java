@@ -26,6 +26,7 @@ public class Parser {
 	
 	public void close() {
 		reader.close();
+
 	}
 	
 	public boolean isCommand(String input) {
@@ -49,11 +50,22 @@ public class Parser {
 		return false;
 	}
 	
+	public String inputAttempt() {
+		String inputline ="";
+		try {
+			inputline = reader.nextLine();
+			} catch (IllegalStateException ex) {
+				ex.getMessage();
+				System.out.println("[< Program Closed");
+			}
+		return inputline;
+	}
+	
 	public Command parse(int input) {
 		if (input == 0) {
 			System.out.println("[> Type \"Login\", \"Create Account\", or \"Exit\"");
 			System.out.print("[> ");
-			String inputline = reader.nextLine();
+			String inputline = inputAttempt();
 			//TODO implement
 			if (isCommand(inputline)){
 				return new Command(inputline);
@@ -64,13 +76,13 @@ public class Parser {
 		} else if (input == 1) {
 			System.out.println("[> Please enter your Username: ");
 			System.out.print("[> ");
-			String inputline = reader.nextLine();
+			String inputline = inputAttempt();
 			return new Command(inputline);
 		} else if (input == 2) {
 			System.out.println("[> Type one of the following: ");
 			System.out.println("[> \"Check Balance\", \"Withdraw\", \"Deposit\", or \"Logout\"");
 			System.out.print("[> ");
-			String inputline = reader.nextLine();
+			String inputline = inputAttempt();
 			if (isCommand2(inputline)){
 				return new Command(inputline);
 			} else {
@@ -80,7 +92,7 @@ public class Parser {
 		} else if (input == 3) {
 			System.out.println("[> Please type your password: ");
 			System.out.print("[> ");
-			String inputline = reader.nextLine();
+			String inputline = inputAttempt();
 			return new Command(inputline);
 		} else {
 			return new Command("");

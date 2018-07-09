@@ -20,4 +20,12 @@ public class Login {
 	public void addID(String username, int accountnumber) {
 		loginMap.put(username, accountnumber);
 	}
+	
+	public void load() {
+		//TODO Use FileIO to load account information.
+	}
+	
+	public void write() {
+		
+	}
 }
